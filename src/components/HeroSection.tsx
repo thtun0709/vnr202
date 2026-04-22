@@ -1,10 +1,14 @@
+import React from 'react';
 import { motion } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 40 },
-  visible: (i = 0) => ({ opacity: 1, y: 0, transition: { delay: i * 0.18, duration: 0.7, ease: 'easeOut' } }),
-};
+function fadeUpProps(i: number) {
+  return {
+    initial: { opacity: 0, y: 40 },
+    animate: { opacity: 1, y: 0 },
+    transition: { delay: i * 0.18, duration: 0.7, ease: 'easeOut' as const },
+  };
+}
 
 export default function HeroSection() {
   return (
@@ -41,7 +45,7 @@ export default function HeroSection() {
 
       <div className="container" style={{ position: 'relative', zIndex: 2, padding: '4rem 1.5rem' }}>
         {/* Badge */}
-        <motion.div variants={fadeUp} initial="hidden" animate="visible" custom={0}>
+        <motion.div {...fadeUpProps(0)}>
           <span style={{
             display: 'inline-block',
             padding: '0.35rem 1.2rem',
@@ -60,7 +64,7 @@ export default function HeroSection() {
 
         {/* Main title */}
         <motion.h1
-          variants={fadeUp} initial="hidden" animate="visible" custom={1}
+          {...fadeUpProps(1)}
           style={{
             fontFamily: 'var(--font-display)',
             fontSize: 'clamp(2rem, 5.5vw, 4rem)',
@@ -83,7 +87,7 @@ export default function HeroSection() {
 
         {/* Sub-title */}
         <motion.p
-          variants={fadeUp} initial="hidden" animate="visible" custom={2}
+          {...fadeUpProps(2)}
           style={{
             marginTop: '1.25rem',
             fontSize: '1.1rem',
@@ -98,7 +102,7 @@ export default function HeroSection() {
 
         {/* Objective box */}
         <motion.div
-          variants={fadeUp} initial="hidden" animate="visible" custom={3}
+          {...fadeUpProps(3)}
           style={{
             marginTop: '2.5rem',
             background: 'rgba(255,255,255,0.04)',

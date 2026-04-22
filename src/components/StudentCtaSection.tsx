@@ -29,6 +29,46 @@ const RESPONSIBILITIES = [
   },
 ];
 
+function ResponsibilityCard({ r, i }: { r: typeof RESPONSIBILITIES[0]; i: number }) {
+  const Icon = r.icon;
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: '-50px' });
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 40 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.5, delay: i * 0.1 }}
+      whileHover={{ y: -5, boxShadow: '0 16px 48px rgba(0,0,0,0.12)' }}
+      style={{
+        background: '#FFFFFF',
+        border: '1.5px solid var(--gray-200)',
+        borderRadius: 'var(--radius-lg)',
+        padding: '1.75rem',
+        cursor: 'default',
+        transition: 'box-shadow 0.3s, transform 0.3s',
+        boxShadow: 'var(--shadow-card)',
+      }}
+    >
+      <div style={{
+        width: 48, height: 48,
+        borderRadius: 14,
+        background: `${r.color}15`,
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        marginBottom: '1rem',
+        border: `1px solid ${r.color}30`,
+      }}>
+        <Icon size={22} color={r.color} strokeWidth={1.8} />
+      </div>
+      <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1rem', fontWeight: 700, color: 'var(--gray-800)', marginBottom: '0.6rem' }}>
+        {r.title}
+      </h3>
+      <p style={{ fontSize: '0.875rem', color: 'var(--gray-600)', lineHeight: 1.7 }}>{r.desc}</p>
+    </motion.div>
+  );
+}
+
 export default function StudentCtaSection() {
   const headRef = useRef(null);
   const headInView = useInView(headRef, { once: true });
@@ -61,45 +101,9 @@ export default function StudentCtaSection() {
 
         {/* Responsibility cards */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1.25rem', marginBottom: '4rem' }}>
-          {RESPONSIBILITIES.map((r, i) => {
-            const Icon = r.icon;
-            const ref = useRef(null);
-            const inView = useInView(ref, { once: true, margin: '-50px' });
-            return (
-              <motion.div
-                key={i}
-                ref={ref}
-                initial={{ opacity: 0, y: 40 }}
-                animate={inView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                whileHover={{ y: -5, boxShadow: '0 16px 48px rgba(0,0,0,0.12)' }}
-                style={{
-                  background: '#FFFFFF',
-                  border: '1.5px solid var(--gray-200)',
-                  borderRadius: 'var(--radius-lg)',
-                  padding: '1.75rem',
-                  cursor: 'default',
-                  transition: 'box-shadow 0.3s, transform 0.3s',
-                  boxShadow: 'var(--shadow-card)',
-                }}
-              >
-                <div style={{
-                  width: 48, height: 48,
-                  borderRadius: 14,
-                  background: `${r.color}15`,
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  marginBottom: '1rem',
-                  border: `1px solid ${r.color}30`,
-                }}>
-                  <Icon size={22} color={r.color} strokeWidth={1.8} />
-                </div>
-                <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1rem', fontWeight: 700, color: 'var(--gray-800)', marginBottom: '0.6rem' }}>
-                  {r.title}
-                </h3>
-                <p style={{ fontSize: '0.875rem', color: 'var(--gray-600)', lineHeight: 1.7 }}>{r.desc}</p>
-              </motion.div>
-            );
-          })}
+          {RESPONSIBILITIES.map((r, i) => (
+            <ResponsibilityCard key={i} r={r} i={i} />
+          ))}
         </div>
 
         {/* CTA Banner */}

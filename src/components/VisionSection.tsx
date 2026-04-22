@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { AlertCircle, TrendingUp, Globe, Cpu, Landmark, GraduationCap } from 'lucide-react';
+import React from 'react';
 
 const CHALLENGES = [
   {
@@ -55,6 +56,141 @@ const FUTURE_MILESTONES = [
     ],
   },
 ];
+
+// ── Extracted card components so hooks are called at top-level ────────────────
+
+function ChallengeCard({ c, i }: { c: typeof CHALLENGES[0]; i: number }) {
+  const Icon = c.icon;
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: '-50px' });
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 40 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.5, delay: i * 0.12 }}
+      style={{
+        background: 'rgba(255,255,255,0.04)',
+        border: '1px solid rgba(255,255,255,0.08)',
+        borderRadius: 'var(--radius-md)',
+        padding: '1.5rem',
+        borderLeft: `3px solid ${c.color}`,
+      }}
+    >
+      <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '0.75rem' }}>
+        <Icon size={18} color={c.color} />
+        <h4 style={{ fontFamily: 'var(--font-display)', fontSize: '0.98rem', fontWeight: 700, color: '#FFFFFF' }}>
+          {c.title}
+        </h4>
+      </div>
+      <p style={{ fontSize: '0.87rem', color: 'rgba(255,255,255,0.62)', lineHeight: 1.7 }}>{c.desc}</p>
+    </motion.div>
+  );
+}
+
+function MilestoneCard({ m, i }: { m: typeof FUTURE_MILESTONES[0]; i: number }) {
+  const Icon = m.icon;
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: '-50px' });
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, scale: 0.92 }}
+      animate={inView ? { opacity: 1, scale: 1 } : {}}
+      transition={{ duration: 0.5, delay: i * 0.15 }}
+      style={{
+        background: 'rgba(255,255,255,0.05)',
+        border: `1.5px solid ${m.color}44`,
+        borderRadius: 'var(--radius-lg)',
+        padding: '1.75rem',
+        position: 'relative',
+        overflow: 'hidden',
+      }}
+      whileHover={{ borderColor: `${m.color}88`, background: 'rgba(255,255,255,0.07)' }}
+    >
+      {/* Glow */}
+      <div style={{
+        position: 'absolute', top: -30, right: -30,
+        width: 100, height: 100,
+        borderRadius: '50%',
+        background: `radial-gradient(circle, ${m.color}22 0%, transparent 70%)`,
+        pointerEvents: 'none',
+      }} />
+
+      <div style={{
+        width: 40, height: 40,
+        borderRadius: 12,
+        background: `${m.color}22`,
+        border: `1px solid ${m.color}55`,
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        marginBottom: '1rem',
+      }}>
+        <Icon size={18} color={m.color} />
+      </div>
+
+      <h3 style={{
+        fontFamily: 'var(--font-display)',
+        fontSize: '1.05rem',
+        fontWeight: 700,
+        color: m.color,
+        marginBottom: '1rem',
+      }}>
+        {m.title}
+      </h3>
+
+      <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+        {m.items.map((item, j) => (
+          <li key={j} style={{ display: 'flex', gap: '0.5rem', fontSize: '0.85rem', color: 'rgba(255,255,255,0.72)', alignItems: 'flex-start' }}>
+            <span style={{ color: m.color, flexShrink: 0, marginTop: 2 }}>→</span>
+            {item}
+          </li>
+        ))}
+      </ul>
+    </motion.div>
+  );
+}
+
+// ── Section components ────────────────────────────────────────────────────────
+
+function ChallengesRow() {
+  return (
+    <div>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '2rem' }}>
+        <AlertCircle size={20} color="#ff7043" />
+        <span style={{ fontFamily: 'var(--font-display)', fontSize: '1.25rem', fontWeight: 700, color: '#FFFFFF' }}>
+          Những Hạn Chế & Thách Thức
+        </span>
+      </div>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '1.25rem' }}>
+        {CHALLENGES.map((c, i) => (
+          <ChallengeCard key={i} c={c} i={i} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function FutureMilestones() {
+  return (
+    <div>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '2rem' }}>
+        <TrendingUp size={20} color="var(--gold)" />
+        <span style={{ fontFamily: 'var(--font-display)', fontSize: '1.25rem', fontWeight: 700, color: '#FFFFFF' }}>
+          Lộ Trình Phát Triển Tiếp Nối
+        </span>
+      </div>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '1.5rem' }}>
+        {FUTURE_MILESTONES.map((m, i) => (
+          <MilestoneCard key={i} m={m} i={i} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ── Main export ───────────────────────────────────────────────────────────────
 
 export default function VisionSection() {
   const headRef = useRef(null);
@@ -119,128 +255,6 @@ export default function VisionSection() {
         <FutureMilestones />
       </div>
     </section>
-  );
-}
-
-function ChallengesRow() {
-  return (
-    <div>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '2rem' }}>
-        <AlertCircle size={20} color="#ff7043" />
-        <span style={{ fontFamily: 'var(--font-display)', fontSize: '1.25rem', fontWeight: 700, color: '#FFFFFF' }}>
-          Những Hạn Chế & Thách Thức
-        </span>
-      </div>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '1.25rem' }}>
-        {CHALLENGES.map((c, i) => {
-          const Icon = c.icon;
-          const ref = useRef(null);
-          const inView = useInView(ref, { once: true, margin: '-50px' });
-          return (
-            <motion.div
-              key={i}
-              ref={ref}
-              initial={{ opacity: 0, y: 40 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: i * 0.12 }}
-              style={{
-                background: 'rgba(255,255,255,0.04)',
-                border: `1px solid rgba(255,255,255,0.08)`,
-                borderRadius: 'var(--radius-md)',
-                padding: '1.5rem',
-                borderLeft: `3px solid ${c.color}`,
-              }}
-            >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '0.75rem' }}>
-                <Icon size={18} color={c.color} />
-                <h4 style={{ fontFamily: 'var(--font-display)', fontSize: '0.98rem', fontWeight: 700, color: '#FFFFFF' }}>{c.title}</h4>
-              </div>
-              <p style={{ fontSize: '0.87rem', color: 'rgba(255,255,255,0.62)', lineHeight: 1.7 }}>{c.desc}</p>
-            </motion.div>
-          );
-        })}
-      </div>
-    </div>
-  );
-}
-
-function FutureMilestones() {
-  const headRef = useRef(null);
-  const headInView = useInView(headRef, { once: true });
-
-  return (
-    <div>
-      <div ref={headRef} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '2rem' }}>
-        <TrendingUp size={20} color="var(--gold)" />
-        <span style={{ fontFamily: 'var(--font-display)', fontSize: '1.25rem', fontWeight: 700, color: '#FFFFFF' }}>
-          Lộ Trình Phát Triển Tiếp Nối
-        </span>
-      </div>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '1.5rem' }}>
-        {FUTURE_MILESTONES.map((m, i) => {
-          const Icon = m.icon;
-          const ref = useRef(null);
-          const inView = useInView(ref, { once: true, margin: '-50px' });
-          return (
-            <motion.div
-              key={i}
-              ref={ref}
-              initial={{ opacity: 0, scale: 0.92 }}
-              animate={inView ? { opacity: 1, scale: 1 } : {}}
-              transition={{ duration: 0.5, delay: i * 0.15 }}
-              style={{
-                background: 'rgba(255,255,255,0.05)',
-                border: `1.5px solid ${m.color}44`,
-                borderRadius: 'var(--radius-lg)',
-                padding: '1.75rem',
-                position: 'relative',
-                overflow: 'hidden',
-              }}
-              whileHover={{ borderColor: `${m.color}88`, background: 'rgba(255,255,255,0.07)' }}
-            >
-              {/* Glow */}
-              <div style={{
-                position: 'absolute', top: -30, right: -30,
-                width: 100, height: 100,
-                borderRadius: '50%',
-                background: `radial-gradient(circle, ${m.color}22 0%, transparent 70%)`,
-                pointerEvents: 'none',
-              }} />
-
-              <div style={{
-                width: 40, height: 40,
-                borderRadius: 12,
-                background: `${m.color}22`,
-                border: `1px solid ${m.color}55`,
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                marginBottom: '1rem',
-              }}>
-                <Icon size={18} color={m.color} />
-              </div>
-
-              <h3 style={{
-                fontFamily: 'var(--font-display)',
-                fontSize: '1.05rem',
-                fontWeight: 700,
-                color: m.color,
-                marginBottom: '1rem',
-              }}>
-                {m.title}
-              </h3>
-
-              <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                {m.items.map((item, j) => (
-                  <li key={j} style={{ display: 'flex', gap: '0.5rem', fontSize: '0.85rem', color: 'rgba(255,255,255,0.72)', alignItems: 'flex-start' }}>
-                    <span style={{ color: m.color, flexShrink: 0, marginTop: 2 }}>→</span>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
-          );
-        })}
-      </div>
-    </div>
   );
 }
 
