@@ -90,8 +90,9 @@ function InnovationCard({ item, index, isActive, onClick }: {
       ref={ref}
       initial={{ opacity: 0, y: 50 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.55, delay: index * 0.1 }}
+      transition={{ duration: 0.55, delay: index * 0.1, ease: 'easeOut' }}
       onClick={onClick}
+      whileHover={!isActive ? { y: -6, boxShadow: `0 12px 36px rgba(0,0,0,0.14)` } : {}}
       style={{
         background: isActive ? item.gradient : '#FFFFFF',
         border: isActive ? 'none' : '1.5px solid var(--gray-200)',
@@ -100,10 +101,11 @@ function InnovationCard({ item, index, isActive, onClick }: {
         cursor: 'pointer',
         position: 'relative',
         overflow: 'hidden',
-        transition: 'all 0.35s ease',
         boxShadow: isActive ? `0 16px 48px ${item.color}44` : 'var(--shadow-card)',
+        height: '100%',          /* stretch to fill wrapper → equal-height row */
+        display: 'flex',
+        flexDirection: 'column',
       }}
-      whileHover={!isActive ? { y: -4, boxShadow: '0 8px 30px rgba(0,0,0,0.12)' } : {}}
     >
       {/* Background glow when active */}
       {isActive && (
@@ -231,13 +233,18 @@ export default function InnovationsSection() {
           </p>
         </motion.div>
 
+        {/*
+          Hàng 1: grid 3 cột đều nhau.
+          Hàng 2: div span toàn bộ 3 cột, bên trong flex centered,
+                  mỗi card rộng bằng đúng 1/3 container (calc 33.33% - gap).
+        */}
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(290px, 1fr))',
+          gridTemplateColumns: 'repeat(3, 1fr)',
           gap: '1.25rem',
-          alignItems: 'start',
         }}>
-          {INNOVATIONS.map((item, i) => (
+          {/* Hàng 1: 3 card đầu */}
+          {INNOVATIONS.slice(0, 3).map((item, i) => (
             <InnovationCard
               key={i}
               item={item}
@@ -246,7 +253,44 @@ export default function InnovationsSection() {
               onClick={() => setActiveIndex(activeIndex === i ? null : i)}
             />
           ))}
+
+          {/* Hàng 2: span toàn chiều rộng, 2 card căn giữa */}
+          <div style={{
+            gridColumn: '1 / -1',
+            display: 'flex',
+            justifyContent: 'center',
+            gap: '1.25rem',
+          }}>
+            {INNOVATIONS.slice(3).map((item, i) => (
+              <div
+                key={i + 3}
+                style={{
+                  /* Đúng bằng 1 ô trong grid 3 cột có gap 1.25rem */
+                  flex: '0 0 calc((100% - 2 * 1.25rem) / 3)',
+                  minWidth: 0,
+                }}
+              >
+                <InnovationCard
+                  item={item}
+                  index={i + 3}
+                  isActive={activeIndex === i + 3}
+                  onClick={() => setActiveIndex(activeIndex === i + 3 ? null : i + 3)}
+                />
+              </div>
+            ))}
+          </div>
         </div>
+
+        <style>{`
+          @media (max-width: 700px) {
+            #diem-moi .grid-cards {
+              grid-template-columns: 1fr !important;
+            }
+            #diem-moi .grid-cards > div {
+              flex: 1 1 100% !important;
+            }
+          }
+        `}</style>
       </div>
     </section>
   );
