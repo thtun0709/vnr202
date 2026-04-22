@@ -1,0 +1,121 @@
+/* ===== Google Fonts ===== */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* ===== CSS Variables / Design Tokens ===== */
+:root {
+  --red-deep: #8B0000;
+  --red-mid:  #A50000;
+  --red-light: #C41E1E;
+  --gold:      #D4AF37;
+  --gold-light: #E8C84D;
+  --gold-pale:  #F5E8A3;
+  --white:     #FFFFFF;
+  --gray-50:   #F9F9F9;
+  --gray-100:  #F0F0F0;
+  --gray-200:  #E2E2E2;
+  --gray-400:  #9A9A9A;
+  --gray-600:  #555555;
+  --gray-800:  #2A2A2A;
+  --gray-900:  #111111;
+  --dark-bg:   #0D0D0D;
+  --dark-surface: #1A1A1A;
+  --dark-surface2: #242424;
+
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body:    'Inter', system-ui, sans-serif;
+
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-xl: 32px;
+
+  --shadow-card: 0 4px 24px rgba(0,0,0,0.10);
+  --shadow-gold: 0 0 30px rgba(212, 175, 55, 0.25);
+
+  --transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ===== Reset & Base ===== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--gray-50);
+  color: var(--gray-800);
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+/* ===== Scrollbar ===== */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--gray-100); }
+::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
+
+/* ===== Typography Helpers ===== */
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  line-height: 1.25;
+}
+
+/* ===== Layout Helpers ===== */
+.container {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+section {
+  position: relative;
+}
+
+/* ===== Gold Divider ===== */
+.gold-divider {
+  display: block;
+  width: 64px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--gold), var(--gold-light));
+  border-radius: 2px;
+  margin: 0.75rem 0 1.5rem 0;
+}
+
+.gold-divider.center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ===== Section Label ===== */
+.section-label {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+/* ===== Noise Overlay ===== */
+.noise-overlay {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 150px;
+  z-index: 1;
+}
+
+/* ===== Responsive Helpers ===== */
+@media (max-width: 768px) {
+  .container { padding: 0 1rem; }
+}
