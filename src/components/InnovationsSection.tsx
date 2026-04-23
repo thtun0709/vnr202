@@ -102,9 +102,10 @@ function InnovationCard({ item, index, isActive, onClick }: {
         position: 'relative',
         overflow: 'hidden',
         boxShadow: isActive ? `0 16px 48px ${item.color}44` : 'var(--shadow-card)',
-        height: '100%',          /* stretch to fill wrapper → equal-height row */
         display: 'flex',
         flexDirection: 'column',
+        /* KHÔNG dùng height:100% — để mỗi card có chiều cao tự nhiên,
+           tránh kéo dài card khi card cùng hàng được expand */
       }}
     >
       {/* Background glow when active */}
@@ -166,6 +167,7 @@ function InnovationCard({ item, index, isActive, onClick }: {
         color: isActive ? '#FFFFFF' : 'var(--gray-800)',
         lineHeight: 1.3,
         marginBottom: '0.3rem',
+        minHeight: '2.6rem',   /* = 2 dòng × lineHeight 1.3 → luôn bằng card có title dài nhất */
       }}>
         {item.title}
       </h3>
@@ -242,6 +244,7 @@ export default function InnovationsSection() {
           display: 'grid',
           gridTemplateColumns: 'repeat(3, 1fr)',
           gap: '1.25rem',
+          alignItems: 'start', /* mỗi card tự có chiều cao riêng, expand 1 card không kéo card khác */
         }}>
           {/* Hàng 1: 3 card đầu */}
           {INNOVATIONS.slice(0, 3).map((item, i) => (

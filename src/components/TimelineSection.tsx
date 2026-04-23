@@ -1,29 +1,38 @@
 import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 
+import img1986 from '../assets/1986-1991.jpg';
+import img1996 from '../assets/1996-2001.png';
+import img2006 from '../assets/2006-2011.jpg';
+import img2016 from '../assets/2016.jpg';
+
 const TIMELINE_DATA = [
   {
     period: '1986 – 1991',
     congress: 'Đại Hội VI & VII',
     color: '#4a6fa1',
+    image: img1986,
     content: 'Khởi xướng Đổi Mới, xóa bỏ bao cấp, tạo nền tảng chính trị – xã hội để chuẩn bị bước vào thời kỳ CNH, HĐH.',
   },
   {
     period: '1996 – 2001',
     congress: 'Đại Hội VIII & IX',
     color: '#7b5ea7',
+    image: img1996,
     content: 'Chính thức đưa đất nước bước vào thời kỳ đẩy mạnh CNH, HĐH; bắt đầu tiếp thu thành tựu khoa học thế giới.',
   },
   {
     period: '2006 – 2011',
     congress: 'Đại Hội X & XI',
     color: 'var(--red-mid)',
+    image: img2006,
     content: 'Bức phá về nhận thức khi chính thức đưa cụm từ "gắn với kinh tế tri thức" và "bảo vệ môi trường" vào định hướng phát triển cốt lõi.',
   },
   {
     period: '2016',
     congress: 'Đại Hội XII',
     color: 'var(--gold)',
+    image: img2016,
     highlight: true,
     content: 'Đỉnh cao chuyển đổi tư duy chiến lược: từ mô hình thâm dụng tài nguyên sang mô hình trí tuệ, năng suất và công nghệ trong kỷ nguyên Cách mạng 4.0.',
   },
@@ -32,7 +41,7 @@ const TIMELINE_DATA = [
 function TimelineItem({ item, index }: { item: typeof TIMELINE_DATA[0]; index: number }) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-80px' });
-  const isRight = index % 2 === 1;
+  const isRight = index % 2 === 1; // card ở bên phải → ảnh bên trái và ngược lại
 
   return (
     <div
@@ -118,8 +127,41 @@ function TimelineItem({ item, index }: { item: typeof TIMELINE_DATA[0]; index: n
         />
       </div>
 
-      {/* Empty right side to balance layout */}
-      <div style={{ flex: 1 }} />
+      {/* Phía đối diện: ảnh minh hoạ */}
+      <motion.div
+        initial={{ opacity: 0, x: isRight ? -40 : 40 }}
+        animate={inView ? { opacity: 1, x: 0 } : {}}
+        transition={{ duration: 0.65, delay: 0.22, ease: 'easeOut' }}
+        style={{
+          flex: 1,
+          marginLeft: isRight ? '2rem' : 0,
+          marginRight: isRight ? 0 : '2rem',
+          display: 'flex',
+          alignItems: 'flex-start',
+        }}
+      >
+        <div style={{
+          width: '100%',
+          borderRadius: 'var(--radius-md)',
+          overflow: 'hidden',
+          border: item.highlight
+            ? '2px solid rgba(212,175,55,0.5)'
+            : '1px solid var(--gray-200)',
+          boxShadow: item.highlight ? 'var(--shadow-gold)' : 'var(--shadow-card)',
+          lineHeight: 0, /* loại bỏ khoảng trắng dưới img */
+        }}>
+          <img
+            src={item.image}
+            alt={`Hình ảnh minh hoạ ${item.period} – ${item.congress}`}
+            style={{
+              width: '100%',
+              height: '180px',
+              objectFit: 'cover',
+              display: 'block',
+            }}
+          />
+        </div>
+      </motion.div>
     </div>
   );
 }
@@ -171,9 +213,9 @@ export default function TimelineSection() {
       <style>{`
         @media (max-width: 640px) {
           .timeline-item { flex-direction: column !important; }
-          .timeline-item > div:first-child { margin-left: 2rem !important; margin-right: 0 !important; }
+          .timeline-item > div:first-child { margin-left: 0 !important; margin-right: 0 !important; width: 100%; }
           .timeline-item > div:nth-child(2) { position: absolute; left: 0; margin-top: 1.25rem; }
-          .timeline-item > div:last-child { display: none; }
+          .timeline-item > div:last-child { margin-left: 2rem !important; margin-right: 0 !important; width: calc(100% - 2rem); }
         }
       `}</style>
     </section>

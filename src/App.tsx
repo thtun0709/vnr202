@@ -4,6 +4,7 @@ import HeroSection from './components/HeroSection';
 import TimelineSection from './components/TimelineSection';
 import ContextSection from './components/ContextSection';
 import InnovationsSection from './components/InnovationsSection';
+import VideoSection from './components/VideoSection';
 import ComparisonSection from './components/ComparisonSection';
 import VisionSection from './components/VisionSection';
 import StudentCtaSection from './components/StudentCtaSection';
@@ -18,6 +19,7 @@ function App() {
         <TimelineSection />
         <ContextSection />
         <InnovationsSection />
+        <VideoSection />
         <ComparisonSection />
         <VisionSection />
         <StudentCtaSection />
