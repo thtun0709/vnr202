@@ -76,7 +76,7 @@ export default function StudentCtaSection() {
   const ctaInView = useInView(ctaRef, { once: true, margin: '-60px' });
 
   return (
-    <section style={{
+    <section id="danh-cho-sinh-vien" style={{
       background: 'linear-gradient(160deg, #FFFFFF 0%, var(--gray-50) 100%)',
       padding: '6rem 0',
       borderTop: '1px solid var(--gray-200)',
@@ -89,7 +89,7 @@ export default function StudentCtaSection() {
           transition={{ duration: 0.6 }}
           style={{ textAlign: 'center', marginBottom: '3.5rem' }}
         >
-          <span className="section-label">Slide 14 – Dành Cho Sinh Viên</span>
+          <span className="section-label">Dành Cho Sinh Viên - Tổng kết</span>
           <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.6rem, 3.5vw, 2.4rem)', color: 'var(--red-deep)', marginTop: '0.5rem' }}>
             Vai Trò Của Sinh Viên Trong<br />Nền Kinh Tế Tri Thức
           </h2>

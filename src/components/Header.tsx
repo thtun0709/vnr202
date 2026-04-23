@@ -5,8 +5,9 @@ import { Menu, X, BookOpen } from 'lucide-react';
 const NAV_LINKS = [
   { href: '#lich-su', label: 'Mạch Lịch Sử' },
   { href: '#diem-moi', label: 'Điểm Mới' },
-  { href: '#thuc-tien', label: 'Thực Tiễn' },
-  { href: '#tam-nhin', label: 'Tầm Nhìn' },
+  { href: '#thuc-tien', label: 'Chuyển Mình' },
+  { href: '#tam-nhin', label: 'Thực Tiễn & Tầm Nhìn' },
+  { href: '#danh-cho-sinh-vien', label: 'Phần Kết' },
 ];
 
 export default function Header() {

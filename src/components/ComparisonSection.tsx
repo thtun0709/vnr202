@@ -122,7 +122,7 @@ export default function ComparisonSection() {
           transition={{ duration: 0.6 }}
           style={{ textAlign: 'center', marginBottom: '3.5rem' }}
         >
-          <span className="section-label">Slide 9 – Minh Họa Trực Quan</span>
+          <span className="section-label">Minh Họa Trực Quan</span>
           <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.6rem, 3.5vw, 2.4rem)', color: 'var(--red-deep)', marginTop: '0.5rem' }}>
             Chuyển Mình Sang Nền Sản Xuất 4.0
           </h2>
@@ -187,7 +187,7 @@ export default function ComparisonSection() {
             "Kinh tế tri thức là việc đưa hàm lượng chất xám vào từng khâu nhỏ nhất của quá trình sản xuất."
           </div>
           <div style={{ marginTop: '0.5rem', fontSize: '0.78rem', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--gold)' }}>
-            — Kết luận Slide 9, Nghị Quyết Đại Hội XII
+            — Kết luận, Nghị Quyết Đại Hội XII
           </div>
         </motion.div>
       </div>
