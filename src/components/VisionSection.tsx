@@ -37,7 +37,7 @@ const FUTURE_MILESTONES = [
   },
   {
     icon: Globe,
-    title: 'Đại Hội XIV (Dự kiến 2026)',
+    title: 'Đại Hội XIV (2026)',
     color: '#E8C84D',
     items: [
       'GDP tăng trưởng bình quân ≥ 10%/năm (2026–2030)',
