@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
+import trongDong from '../assets/trong_dong.png';
 
 function fadeUpProps(i: number) {
   return {
@@ -42,6 +43,38 @@ export default function HeroSection() {
       }} />
 
       <div className="noise-overlay" />
+
+      {/* Mặt trống đồng xoay chậm phía sau nội dung */}
+      <div
+        style={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: 'clamp(520px, 72vw, 860px)',
+          height: 'clamp(520px, 72vw, 860px)',
+          zIndex: 1,
+          pointerEvents: 'none',
+        }}
+      >
+        <div style={{ animation: 'trongDongSpin 80s linear infinite', width: '100%', height: '100%' }}>
+          <img
+            src={trongDong}
+            alt=""
+            aria-hidden="true"
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'contain',
+              display: 'block',
+              opacity: 0.11,
+              mixBlendMode: 'screen',
+              filter: 'invert(1) sepia(1) saturate(4) hue-rotate(5deg)',
+            }}
+          />
+        </div>
+      </div>
+      <style>{`@keyframes trongDongSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }`}</style>
 
       <div className="container" style={{ position: 'relative', zIndex: 2, padding: '4rem 1.5rem' }}>
         {/* Badge */}
